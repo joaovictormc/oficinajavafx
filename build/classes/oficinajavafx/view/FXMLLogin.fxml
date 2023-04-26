@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLLoginController">
+   <children>
+      <PasswordField fx:id="txtPassword" layoutX="195.0" layoutY="117.0" prefHeight="25.0" prefWidth="150.0" />
+      <TextField fx:id="txtUser" layoutX="195.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
+      <Label layoutX="124.00000000000001" layoutY="74.0" text="Usuário" AnchorPane.rightAnchor="285.2" />
+      <Label layoutX="132.0" layoutY="121.0" text="Senha" AnchorPane.rightAnchor="285.2" />
+      <Button fx:id="btnEntrar" layoutX="360.0" layoutY="183.0" mnemonicParsing="false" onAction="#entrar" prefHeight="25.0" prefWidth="65.0" text="Entrar" />
+      <ImageView layoutX="81.0" layoutY="118.0">
+         <image>
+            <Image url="@icones/solar_password-bold.png" />
+         </image>
+      </ImageView>
+      <ImageView layoutX="81.0" layoutY="71.0">
+         <image>
+            <Image url="@icones/mdi_user-circle.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
