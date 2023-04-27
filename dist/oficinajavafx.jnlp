@@ -10,7 +10,11 @@
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="lib\jfoenix-8.0.10.jar" size="2710207" download="eager" />
     <jar href="lib\postgresql-42.2.5.jar" size="825943" download="eager" />
+<<<<<<< HEAD
     <jar href="oficinajavafx.jar" size="1185850" download="eager" />
+=======
+    <jar href="oficinajavafx.jar" size="1187864" download="eager" />
+>>>>>>> 9274fefa67ebcefa7d2c4ca55d83c9a37d3d7bd0
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="oficinajavafx" >
     <param name="requiredFXVersion" value="8.0+"/>
