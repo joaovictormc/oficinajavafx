@@ -1,8 +1,10 @@
-CREATE TABLE user (
+CREATE TABLE usuarios (
     id serial PRIMARY KEY;
     usuario varchar(10),
     senha varchar(10)
 );
+
+insert into usuarios(usuario, senha) values ('admin', 'admin');
 
 
 CREATE TABLE clientes (
