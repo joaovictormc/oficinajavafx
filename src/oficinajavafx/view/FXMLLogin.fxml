@@ -8,21 +8,21 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="450.0" styleClass="backgroundLogin" stylesheets="@styles/FXMLLogin.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLLoginController">
    <children>
-      <PasswordField fx:id="txtPassword" layoutX="195.0" layoutY="117.0" prefHeight="25.0" prefWidth="150.0" />
-      <TextField fx:id="txtUser" layoutX="195.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
-      <Label layoutX="124.00000000000001" layoutY="74.0" text="Usuário" AnchorPane.rightAnchor="285.2" />
-      <Label layoutX="132.0" layoutY="121.0" text="Senha" AnchorPane.rightAnchor="285.2" />
-      <Button fx:id="btnEntrar" layoutX="360.0" layoutY="183.0" mnemonicParsing="false" onAction="#entrar" prefHeight="25.0" prefWidth="65.0" text="Entrar" />
-      <ImageView layoutX="81.0" layoutY="118.0">
+      <PasswordField fx:id="txtPassword" layoutX="201.0" layoutY="111.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-radius: 25;" styleClass="txtUser" />
+      <TextField fx:id="txtUser" layoutX="201.0" layoutY="65.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-radius: 25;" styleClass="txtUser" />
+      <Button fx:id="btnEntrar" layoutX="339.0" layoutY="173.0" mnemonicParsing="false" onAction="#entrar" prefHeight="42.0" prefWidth="88.0" styleClass="btnEntrar" text="Entrar" />
+      <Label fx:id="lblUser" layoutX="106.0" layoutY="66.0" styleClass="lblUser" text="Usuário" textFill="WHITE" AnchorPane.rightAnchor="278.4" />
+      <Label fx:id="lblSenha" layoutX="113.0" layoutY="113.0" styleClass="lblUser" text="Senha" textFill="WHITE" AnchorPane.rightAnchor="278.4" />
+      <ImageView layoutX="57.0" layoutY="70.0" AnchorPane.rightAnchor="369.0">
          <image>
-            <Image url="@icones/solar_password-bold.png" />
+            <Image url="@icones/mdi_user-circle-white.png" />
          </image>
       </ImageView>
-      <ImageView layoutX="81.0" layoutY="71.0">
+      <ImageView layoutX="57.0" layoutY="117.0" AnchorPane.rightAnchor="369.0">
          <image>
-            <Image url="@icones/mdi_user-circle.png" />
+            <Image url="@icones/solar_password-bold-white.png" />
          </image>
       </ImageView>
    </children>

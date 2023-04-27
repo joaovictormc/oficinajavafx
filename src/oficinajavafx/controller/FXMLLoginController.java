@@ -15,8 +15,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+//import javafx.scene.text.Font;
+//import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class FXMLLoginController implements Initializable {
@@ -27,6 +32,17 @@ public class FXMLLoginController implements Initializable {
     private PasswordField txtPassword;
     @FXML
     private Button btnEntrar;
+    @FXML
+    private Label lblUser;
+    @FXML
+    private Label lblSenha;
+    @FXML
+    private ImageView imgUser;
+    @FXML
+    private ImageView imgSenha;
+    @FXML
+    private AnchorPane backgroundLogin;
+    
 
     @FXML
     public void entrar(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
@@ -54,7 +70,10 @@ public class FXMLLoginController implements Initializable {
 
             if (rs.next()) {
                 // Usuário e senha válidos
-                Parent root = FXMLLoader.load(getClass().getResource("/oficinajavafx/view/FXMLTelaPrincipal.fxml"));
+                //Text text = new Text();
+                //Font font = Font.loadFont("file:/oficinajavafx/view/fonts/Poppins-Regular.ttf", 16);
+                //text.setFont(font);
+                Parent root = FXMLLoader.load(getClass().getResource("/oficinajavafx/view/FXMLVboxMain.fxml"));
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(scene);
