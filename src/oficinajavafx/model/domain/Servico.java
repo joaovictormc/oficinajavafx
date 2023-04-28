@@ -1,25 +1,31 @@
 package oficinajavafx.model.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Servico {
+public class Servico implements Serializable{
 
     private int id_servicos;
     private String tipo_Servico;
     private String tempo_Estimado;
-    private BigDecimal valor;
-    private int id_mecanico;
+    private double valor;
+    private Mecanico mecanico;
     private String complexidade;
     
     
-    public Servico(int id_servicos, String tipo_Servico, String tempo_Estimado, BigDecimal valor, int id_mecanico, String complexidade) {
+    public Servico() {
+    }
+    
+    public Servico(int id_servicos, String tipo_Servico, String tempo_Estimado, double valor, Mecanico mecanico, String complexidade) {
         this.id_servicos = id_servicos;
         this.tipo_Servico = tipo_Servico;
         this.tempo_Estimado = tempo_Estimado;
         this.valor = valor;
-        this.id_mecanico = id_mecanico;
+        this.mecanico = mecanico;
         this.complexidade = complexidade;
     }
+
+    
     
 
     // Getters e Setters
@@ -47,20 +53,20 @@ public class Servico {
         this.tempo_Estimado = tempo_Estimado;
     }
 
-    public BigDecimal getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
-    public int getId_mecanico() {
-        return id_mecanico;
+    public Mecanico getMecanico() {
+        return mecanico;
     }
 
-    public void setId_mecanico(int id_mecanico) {
-        this.id_mecanico = id_mecanico;
+    public void setMecanico(Mecanico mecanico) {
+        this.mecanico = mecanico;
     }
 
     public String getComplexidade() {
@@ -69,19 +75,6 @@ public class Servico {
 
     public void setComplexidade(String complexidade) {
         this.complexidade = complexidade;
-    }
-
-    // toString
-    @Override
-    public String toString() {
-        return "Servico{" +
-                "id=" + id_servicos +
-                ", tipoServico='" + tipo_Servico + '\'' +
-                ", tempoEstimado='" + tempo_Estimado + '\'' +
-                ", valor=" + valor +
-                ", mecanico=" + id_mecanico +
-                ", complexidade='" + complexidade + '\'' +
-                '}';
     }
 }
 

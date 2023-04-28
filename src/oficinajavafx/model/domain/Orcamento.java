@@ -1,7 +1,8 @@
 package oficinajavafx.model.domain;
 
-import java.math.BigDecimal;
-import java.util.Date;
+//import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
 
 public class Orcamento {
 
@@ -9,22 +10,27 @@ public class Orcamento {
     private String tipo_veiculo;
     private String modelo_veiculo;
     private String ano_veiculo;
+    private String marca_veiculo;
     private String avarias;
-    private Date data_entrada;
-    private Date data_saida;
+    private LocalDate data_entrada;
+    private LocalDate data_saida;
     private String defeito_relatado;
     private String defeito_constatado;
     private int descontos;
-    private BigDecimal valor_final;
+    private double valor_final;
     private boolean situacao;
-    private int id_cliente;
-    private int id_servicos;
+    private Servico servico;
+    private Cliente cliente;
+    
+    public Orcamento() {
+    }
 
-    public Orcamento(int id_os, String tipo_veiculo, String modelo_veiculo, String ano_veiculo, String avarias, Date data_entrada, Date data_saida, String defeito_relatado, String defeito_constatado, int descontos, BigDecimal valor_final, boolean situacao, int id_cliente, int id_servicos) {
+    public Orcamento(int id_os, String tipo_veiculo, String modelo_veiculo, String ano_veiculo, String marca_veiculo, String avarias, LocalDate data_entrada, LocalDate data_saida, String defeito_relatado, String defeito_constatado, int descontos, double valor_final, boolean situacao, Servico servico, Cliente cliente) {
         this.id_os = id_os;
         this.tipo_veiculo = tipo_veiculo;
         this.modelo_veiculo = modelo_veiculo;
         this.ano_veiculo = ano_veiculo;
+        this.marca_veiculo = marca_veiculo;
         this.avarias = avarias;
         this.data_entrada = data_entrada;
         this.data_saida = data_saida;
@@ -33,9 +39,11 @@ public class Orcamento {
         this.descontos = descontos;
         this.valor_final = valor_final;
         this.situacao = situacao;
-        this.id_cliente = id_cliente;
-        this.id_servicos = id_servicos;
+        this.servico = servico;
+        this.cliente = cliente;
     }
+
+    
 
     public int getId_os() {
         return id_os;
@@ -69,6 +77,14 @@ public class Orcamento {
         this.ano_veiculo = ano_veiculo;
     }
 
+    public String getMarca_veiculo() {
+        return marca_veiculo;
+    }
+
+    public void setMarca_veiculo(String marca_veiculo) {
+        this.marca_veiculo = marca_veiculo;
+    }
+    
     public String getAvarias() {
         return avarias;
     }
@@ -77,19 +93,19 @@ public class Orcamento {
         this.avarias = avarias;
     }
 
-    public Date getData_entrada() {
+    public LocalDate getData_entrada() {
         return data_entrada;
     }
 
-    public void setData_entrada(Date data_entrada) {
+    public void setData_entrada(LocalDate data_entrada) {
         this.data_entrada = data_entrada;
     }
 
-    public Date getData_saida() {
+    public LocalDate getData_saida() {
         return data_saida;
     }
 
-    public void setData_saida(Date data_saida) {
+    public void setData_saida(LocalDate data_saida) {
         this.data_saida = data_saida;
     }
 
@@ -117,11 +133,11 @@ public class Orcamento {
         this.descontos = descontos;
     }
 
-    public BigDecimal getValor_final() {
+    public Double getValor_final() {
         return valor_final;
     }
 
-    public void setValor_final(BigDecimal valor_final) {
+    public void setValor_final(Double valor_final) {
         this.valor_final = valor_final;
     }
 
@@ -133,19 +149,21 @@ public class Orcamento {
         this.situacao = situacao;
     }
 
-    public int getId_cliente() {
-        return id_cliente;
+    public Servico getServico() {
+        return servico;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setServico(Servico servico) {
+        this.servico = servico;
     }
 
-    public int getId_servicos() {
-        return id_servicos;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setId_servicos(int id_servicos) {
-        this.id_servicos = id_servicos;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
+
+    
 }

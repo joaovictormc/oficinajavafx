@@ -1,6 +1,5 @@
 package oficinajavafx.model.dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import oficinajavafx.model.domain.Mecanico;
 
 import oficinajavafx.model.domain.Servico;
 
@@ -29,10 +29,10 @@ public class ServicoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, servicos.getTipo_servico());
             stmt.setString(2, servicos.getTempo_estimado());
-            stmt.setBigDecimal(3, servicos.getValor());
-            stmt.setInt(4, servicos.getId_mecanico());
+            stmt.setDouble(3, servicos.getValor());
+            stmt.setInt(4, servicos.getMecanico().getId_mec());
             stmt.setString(5, servicos.getComplexidade());
-            stmt.executeUpdate();
+            stmt.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,11 +46,11 @@ public class ServicoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, servicos.getTipo_servico());
             stmt.setString(2, servicos.getTempo_estimado());
-            stmt.setBigDecimal(3, servicos.getValor());
-            stmt.setInt(4, servicos.getId_mecanico());
+            stmt.setDouble(3, servicos.getValor());
+            stmt.setInt(4, servicos.getMecanico().getId_mec());
             stmt.setString(5, servicos.getComplexidade());
             stmt.setInt(6, servicos.getId_servicos());
-            stmt.executeUpdate();
+            stmt.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,12 +58,12 @@ public class ServicoDAO {
         }
     }
 
-    public boolean deletar(int id) {
+    public boolean deletar(Servico servico) {
         String sql = "DELETE FROM servicos WHERE id_servicos=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
+            stmt.setInt(1, servico.getId_servicos());
+            stmt.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,53 +71,72 @@ public class ServicoDAO {
         }
     }
 
-    public List<Servico> listar() throws SQLException {
-        List<Servico> servicosList = new ArrayList<>();
+    public List<Servico> listar(){
         String sql = "SELECT * FROM servicos";
+        List<Servico> retorno = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-
-            ResultSet resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                int id_servicos = resultSet.getInt("id_servicos");
-                String tipo_servico = resultSet.getString("tipo_servico");
-                String tempo_estimado = resultSet.getString("tempo_estimado");
-                BigDecimal valor = resultSet.getBigDecimal("valor");
-                int id_mecanico = resultSet.getInt("id_mecanico");
-                String complexidade = resultSet.getString("complexidade");
-                Servico servicos = new Servico(id_servicos, tipo_servico, tempo_estimado, valor, id_mecanico,
-                        complexidade);
-                servicosList.add(servicos);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Servico servico = new Servico();
+                Mecanico mecanico = new Mecanico();
+                
+                servico.setId_serveicos(rs.getInt("id_servico"));
+                servico.setTipo_servico(rs.getString("tipo_servico"));
+                servico.setTempo_estimado(rs.getString("tempo_estimado"));
+                servico.setValor(rs.getDouble("valor"));
+                mecanico.setId_mec(rs.getInt("id_mec"));
+                servico.setComplexidade(rs.getString("complexidade"));
+                
+                //pegando dados da tabela mecanico
+                MecanicoDAO mecanicoDAO = new MecanicoDAO();
+                mecanicoDAO.setConnection(connection);
+                mecanico = mecanicoDAO.buscar(mecanico);
+                
+                servico.setMecanico(mecanico);
+                
+                retorno.add(servico);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return servicosList;
+        return retorno;
     }
 
-    public Servico buscarPorId(int id) throws SQLException {
-        Servico servicos = null;
+    public Servico buscar(Servico servico) {
         String sql = "SELECT * FROM servicos WHERE id_servicos=?";
+        Servico retorno = new Servico();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
-
-            ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                int id_servicos = resultSet.getInt("id_servicos");
-                String tipo_servico = resultSet.getString("tipo_servico");
-                String tempo_estimado = resultSet.getString("tempo_estimado");
-                BigDecimal valor = resultSet.getBigDecimal("valor");
-                int id_mecanico = resultSet.getInt("id_mecanico");
-                String complexidade = resultSet.getString("complexidade");
-                servicos = new Servico(id_servicos, tipo_servico, tempo_estimado, valor, id_mecanico,
-                        complexidade);
+            stmt.setInt(1, servico.getId_servicos());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Mecanico mecanico = new Mecanico();
+                
+                servico.setId_serveicos(rs.getInt("id_servico"));
+                servico.setTipo_servico(rs.getString("tipo_servico"));
+                servico.setTempo_estimado(rs.getString("tempo_estimado"));
+                servico.setValor(rs.getDouble("valor"));
+                mecanico.setId_mec(rs.getInt("id_mec"));
+                servico.setComplexidade(rs.getString("complexidade"));
+                
+                //pegando dados da tabela mecanico
+                MecanicoDAO mecanicoDAO = new MecanicoDAO();
+                mecanicoDAO.setConnection(connection);
+                mecanico = mecanicoDAO.buscar(mecanico);
+                
+                servico.setMecanico(mecanico);
+                retorno = servico;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return servicos;
+        return retorno;
+    }
+
+    List<Servico> buscar(List<Servico> servico) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

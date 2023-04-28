@@ -32,7 +32,7 @@
           </Menu>
           <Menu mnemonicParsing="false">
             <items>
-              <MenuItem fx:id="menuOrcamento" mnemonicParsing="false" text="Orçamentos" />
+              <MenuItem fx:id="menuOrcamento" mnemonicParsing="false" onAction="#handleMenuOrcamentos" text="Orçamentos" />
                   <MenuItem fx:id="menuAgendamento" mnemonicParsing="false" text="Agengamento de Servços" />
                   <MenuItem fx:id="menuAvaliacao" mnemonicParsing="false" text="Avaliação dos Serviços" />
             </items>

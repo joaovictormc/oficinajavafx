@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import oficinajavafx.model.domain.Cliente;
 
 import oficinajavafx.model.domain.Orcamento;
+import oficinajavafx.model.domain.Servico;
 
 public class OrcamentoDAO {
     private Connection connection;
@@ -31,16 +33,17 @@ public class OrcamentoDAO {
             stmt.setString(1, orcamento.getTipo_veiculo());
             stmt.setString(2, orcamento.getModelo_veiculo());
             stmt.setString(3, orcamento.getAno_veiculo());
-            stmt.setString(4, orcamento.getAvarias());
-            stmt.setDate(5, new java.sql.Date(orcamento.getData_entrada().getTime()));
-            stmt.setDate(6, new java.sql.Date(orcamento.getData_saida().getTime()));
-            stmt.setString(7, orcamento.getDefeito_relatado());
-            stmt.setString(8, orcamento.getDefeito_constatado());
-            stmt.setInt(9, orcamento.getDescontos());
-            stmt.setBigDecimal(10, orcamento.getValor_final());
-            stmt.setBoolean(11, orcamento.getSituacao());
-            stmt.setInt(12, orcamento.getId_cliente());
-            stmt.setInt(13, orcamento.getId_servicos());
+            stmt.setString(4, orcamento.getMarca_veiculo());
+            stmt.setString(5, orcamento.getAvarias());
+            stmt.setDate(6, Date.valueOf(orcamento.getData_entrada()));
+            stmt.setDate(7, Date.valueOf(orcamento.getData_saida()));
+            stmt.setString(8, orcamento.getDefeito_relatado());
+            stmt.setString(9, orcamento.getDefeito_constatado());
+            stmt.setInt(10, orcamento.getDescontos());
+            stmt.setDouble(11, orcamento.getValor_final());
+            stmt.setBoolean(12, orcamento.getSituacao());
+            stmt.setInt(13, orcamento.getCliente().getId_Cli());
+            stmt.setInt(14, orcamento.getServico().getId_servicos());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -49,24 +52,24 @@ public class OrcamentoDAO {
         }
     }
 
-    public boolean alterar(Orcamento orcamento) throws SQLException {
-        String sql = "UPDATE orcamentos SET tipo_veiculo=?, modelo_veiculo=?, ano_veiculo=?, avarias=?, data_entrada=?, data_saida=?, defeito_relatado=?, defeito_constatado=?, descontos=?, valor_final=?, situacao=?, id_cliente=?, id_servicos=? WHERE id_os=?";
+    public boolean alterar(Orcamento orcamento) {
+        String sql = "UPDATE orcamentos SET tipo_veiculo=?, modelo_veiculo=?, ano_veiculo=?, avarias=?, data_entrada=?, data_saida=?, defeito_relatado=?, defeito_constatado=?, descontos=?, valor_final=?, situacao=?, id_cliente=? WHERE id_os=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, orcamento.getTipo_veiculo());
             stmt.setString(2, orcamento.getModelo_veiculo());
             stmt.setString(3, orcamento.getAno_veiculo());
-            stmt.setString(4, orcamento.getAvarias());
-            stmt.setDate(5, new java.sql.Date(orcamento.getData_entrada().getTime()));
-            stmt.setDate(6, new java.sql.Date(orcamento.getData_saida().getTime()));
-            stmt.setString(7, orcamento.getDefeito_relatado());
-            stmt.setString(8, orcamento.getDefeito_constatado());
-            stmt.setInt(9, orcamento.getDescontos());
-            stmt.setBigDecimal(10, orcamento.getValor_final());
-            stmt.setBoolean(11, orcamento.getSituacao());
-            stmt.setInt(12, orcamento.getId_cliente());
-            stmt.setInt(13, orcamento.getId_servicos());
-            stmt.setInt(14, orcamento.getId_os());
+            stmt.setString(4, orcamento.getMarca_veiculo());
+            stmt.setString(5, orcamento.getAvarias());
+            stmt.setDate(6, Date.valueOf(orcamento.getData_entrada()));
+            stmt.setDate(7, Date.valueOf(orcamento.getData_saida()));
+            stmt.setString(8, orcamento.getDefeito_relatado());
+            stmt.setString(9, orcamento.getDefeito_constatado());
+            stmt.setInt(10, orcamento.getDescontos());
+            stmt.setDouble(11, orcamento.getValor_final());
+            stmt.setBoolean(12, orcamento.getSituacao());
+            stmt.setInt(13, orcamento.getCliente().getId_Cli());
+            stmt.setInt(14, orcamento.getServico().getId_servicos());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -75,7 +78,7 @@ public class OrcamentoDAO {
         }
     }
 
-    public boolean deletar(int id) throws SQLException {
+    public boolean deletar(int id) {
         String sql = "DELETE FROM orcamentos WHERE id_os=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -88,71 +91,98 @@ public class OrcamentoDAO {
         }
     }
 
-    public List<Orcamento> listar() throws SQLException {
+    public List<Orcamento> listar() {
         String sql = "SELECT * FROM orcamentos";
-        List<Orcamento> orcamentos = new ArrayList<>();
+        List<Orcamento> retorno = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-
-            ResultSet resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                int id_os = resultSet.getInt("id_os");
-                String tipo_veiculo = resultSet.getString("tipo_veiculo");
-                String modelo_veiculo = resultSet.getString("modelo_veiculo");
-                String ano_veiculo = resultSet.getString("ano_veiculo");
-                String avarias = resultSet.getString("avarias");
-                Date data_entrada = resultSet.getDate("data_entrada");
-                Date data_saida = resultSet.getDate("data_saida");
-                String defeito_relatado = resultSet.getString("defeito_relatado");
-                String defeito_constatado = resultSet.getString("defeito_constatado");
-                int descontos = resultSet.getInt("descontos");
-                BigDecimal valor_final = resultSet.getBigDecimal("valor_final");
-                boolean situacao = resultSet.getBoolean("situacao");
-                int id_cliente = resultSet.getInt("id_cliente");
-                int id_servicos = resultSet.getInt("id_servicos");
-                Orcamento orcamento = new Orcamento(id_os, tipo_veiculo, modelo_veiculo, ano_veiculo, avarias,
-                        data_entrada, data_saida, defeito_relatado, defeito_constatado, descontos, valor_final,
-                        situacao, id_cliente, id_servicos);
-                orcamentos.add(orcamento);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Orcamento orcamento = new Orcamento();
+                Cliente cliente = new Cliente();
+                Servico servico = new Servico();
+                
+                orcamento.setId_os(rs.getInt("id_os"));
+                orcamento.setTipo_veiculo(rs.getString("tipo_veiculo"));
+                orcamento.setModelo_veiculo(rs.getString("modelo-veiculo"));
+                orcamento.setMarca_veiculo(rs.getString("marca_veiculo"));
+                orcamento.setAno_veiculo(rs.getString("ano_veiculo"));
+                orcamento.setData_entrada(rs.getDate("data_entrada").toLocalDate());
+                orcamento.setData_saida(rs.getDate("data-saida").toLocalDate());
+                orcamento.setDefeito_relatado(rs.getString("defeito_relatado"));
+                orcamento.setDefeito_constatado(rs.getString("defeito_constatado"));
+                orcamento.setDescontos(rs.getInt("descontos"));
+                orcamento.setValor_final(rs.getDouble("valor_final"));
+                orcamento.setSituacao(rs.getBoolean("situacao"));
+                
+                //pegando os dados da tabela cliente
+                ClienteDAO clienteDAO = new ClienteDAO();
+                clienteDAO.setConnection(connection);
+                cliente = clienteDAO.buscar(cliente);
+                
+                
+                //pegando os dados da tabela servico
+                ServicoDAO servicoDAO = new ServicoDAO();
+                servicoDAO.setConnection(connection);
+                servico = servicoDAO.buscar(servico);
+                
+                orcamento.setCliente(cliente);
+                orcamento.setServico(servico);
+                retorno.add(orcamento);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(OrcamentoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return orcamentos;
+        return retorno;
     }
 
-    public Orcamento buscarPorId(int id) throws SQLException {
+    public Orcamento buscar(int id) {
         String sql = "SELECT * FROM orcamentos WHERE id_os=?";
+        Orcamento retorno = new Orcamento();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
-
-            ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                String tipo_veiculo = resultSet.getString("tipo_veiculo");
-                String modelo_veiculo = resultSet.getString("modelo_veiculo");
-                String ano_veiculo = resultSet.getString("ano_veiculo");
-                String avarias = resultSet.getString("avarias");
-                Date data_entrada = resultSet.getDate("data_entrada");
-                Date data_saida = resultSet.getDate("data_saida");
-                String defeito_relatado = resultSet.getString("defeito_relatado");
-                String defeito_constatado = resultSet.getString("defeito_constatado");
-                int descontos = resultSet.getInt("descontos");
-                BigDecimal valor_final = resultSet.getBigDecimal("valor_final");
-                boolean situacao = resultSet.getBoolean("situacao");
-                int id_cliente = resultSet.getInt("id_cliente");
-                int id_servicos = resultSet.getInt("id_servicos");
-                Orcamento orcamento = new Orcamento(id, tipo_veiculo, modelo_veiculo, ano_veiculo, avarias,
-                        data_entrada, data_saida, defeito_relatado, defeito_constatado, descontos, valor_final,
-                        situacao, id_cliente, id_servicos);
-                return orcamento;
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Orcamento orcamento = new Orcamento();
+                Cliente cliente = new Cliente();
+                Servico servico = new Servico();
+                
+                orcamento.setId_os(rs.getInt("id_os"));
+                orcamento.setTipo_veiculo(rs.getString("tipo_veiculo"));
+                orcamento.setModelo_veiculo(rs.getString("modelo-veiculo"));
+                orcamento.setAno_veiculo(rs.getString("ano_veiculo"));
+                orcamento.setMarca_veiculo(rs.getString("marca_veiculo"));
+                orcamento.setData_entrada(rs.getDate("data_entrada").toLocalDate());
+                orcamento.setData_saida(rs.getDate("data-saida").toLocalDate());
+                orcamento.setDefeito_relatado(rs.getString("defeito_relatado"));
+                orcamento.setDefeito_constatado(rs.getString("defeito_constatado"));
+                orcamento.setDescontos(rs.getInt("descontos"));
+                orcamento.setValor_final(rs.getDouble("valor_final"));
+                orcamento.setSituacao(rs.getBoolean("situacao"));
+                
+                //pegando os dados da tabela cliente
+                ClienteDAO clienteDAO = new ClienteDAO();
+                clienteDAO.setConnection(connection);
+                cliente = clienteDAO.buscar(cliente);
+                
+                
+                //pegando os dados da tabela servico
+                ServicoDAO servicoDAO = new ServicoDAO();
+                servicoDAO.setConnection(connection);
+                servico = servicoDAO.buscar(servico);
+                
+                orcamento.setCliente(cliente);
+                orcamento.setServico(servico);
+                
+                retorno = orcamento;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(OrcamentoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null; // caso não encontre nenhum orcamento com o id especificado
+        return retorno;
     }
 
 }

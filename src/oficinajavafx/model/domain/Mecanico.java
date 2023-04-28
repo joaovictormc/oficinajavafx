@@ -1,6 +1,5 @@
 package oficinajavafx.model.domain;
 
-import java.math.BigDecimal;
 
 public class Mecanico {
     private int id_mec;
@@ -8,11 +7,14 @@ public class Mecanico {
     private String telefone_mec;
     private String especialidade;
     private String email;
-    private BigDecimal salario;
+    private double salario;
     private boolean disponibilidade;
     private String status;
 
-    public Mecanico(int id_mec, String nome_mec, String telefone_mec, String especialidade, String email, BigDecimal salario, boolean disponibilidade, String status) {
+    public Mecanico() {
+    }
+
+    public Mecanico(int id_mec, String nome_mec, String telefone_mec, String especialidade, String email, double salario, boolean disponibilidade, String status) {
         this.id_mec = id_mec;
         this.nome_mec = nome_mec;
         this.telefone_mec = telefone_mec;
@@ -63,11 +65,11 @@ public class Mecanico {
         this.email = email;
     }
 
-    public BigDecimal getSalario() {
+    public Double getSalario() {
         return salario;
     }
 
-    public void setSalario(BigDecimal salario) {
+    public void setSalario(Double salario) {
         this.salario = salario;
     }
 

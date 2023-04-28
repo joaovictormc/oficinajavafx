@@ -1,10 +1,7 @@
 package oficinajavafx.model.dao;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +20,7 @@ public class MecanicoDAO {
         this.connection = connection;
     }
 
-    public boolean inserir(Mecanico mecanico) throws SQLException {
+    public boolean inserir(Mecanico mecanico) {
         String sql = "INSERT INTO mecanico (nome_mec, telefone_mec, especialidade, email, salario, disponibilidade, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -31,7 +28,7 @@ public class MecanicoDAO {
             stmt.setString(2, mecanico.getTelefone_mec());
             stmt.setString(3, mecanico.getEspecialidade());
             stmt.setString(4, mecanico.getEmail());
-            stmt.setBigDecimal(5, mecanico.getSalario());
+            stmt.setDouble(5, mecanico.getSalario());
             stmt.setBoolean(6, mecanico.isDisponibilidade());
             stmt.setString(7, mecanico.getStatus());
             stmt.execute();
@@ -42,7 +39,7 @@ public class MecanicoDAO {
         }
     }
 
-    public boolean alterar(Mecanico mecanico) throws SQLException {
+    public boolean alterar(Mecanico mecanico) {
         String sql = "UPDATE mecanico SET nome_mec=?, telefone_mec=?, especialidade=?, email=?, salario=?, disponibilidade=?, status=? WHERE id_mec=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -50,7 +47,7 @@ public class MecanicoDAO {
             stmt.setString(2, mecanico.getTelefone_mec());
             stmt.setString(3, mecanico.getEspecialidade());
             stmt.setString(4, mecanico.getEmail());
-            stmt.setBigDecimal(5, mecanico.getSalario());
+            stmt.setDouble(5, mecanico.getSalario());
             stmt.setBoolean(6, mecanico.isDisponibilidade());
             stmt.setString(7, mecanico.getStatus());
             stmt.setInt(8, mecanico.getId_mec());
@@ -62,7 +59,7 @@ public class MecanicoDAO {
         }
     }
 
-    public boolean deletar(int id) throws SQLException {
+    public boolean deletar(int id){
         String sql = "DELETE FROM mecanico WHERE id_mec=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -75,57 +72,53 @@ public class MecanicoDAO {
         }
     }
 
-    public List<Mecanico> listar() throws SQLException {
+    public List<Mecanico> listar(){
         String sql = "SELECT * FROM mecanico";
-        List<Mecanico> mecanicos = new ArrayList<>();
+        List<Mecanico> retorno = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
-            ResultSet resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                int id_mec = resultSet.getInt("id_mec");
-                String nome_mec = resultSet.getString("nome_mec");
-                String telefone_mec = resultSet.getString("telefone_mec");
-                String especialidade = resultSet.getString("especialidade");
-                String email = resultSet.getString("email");
-                BigDecimal salario = resultSet.getBigDecimal("salario");
-                boolean disponibilidade = resultSet.getBoolean("disponibilidade");
-                String status = resultSet.getString("status");
-                Mecanico mecanico = new Mecanico(id_mec, nome_mec, telefone_mec, especialidade, email, salario,
-                        disponibilidade, status);
-                mecanicos.add(mecanico);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Mecanico mecanico = new Mecanico();
+                mecanico.setId_mec(rs.getInt("id_mec"));
+                mecanico.setNome_mec(rs.getString("nome_mec"));
+                mecanico.setTelefone_mec(rs.getString("telefone_mec"));
+                mecanico.setEspecialidade(rs.getString("especialidade"));
+                mecanico.setEmail(rs.getString("email"));
+                mecanico.setSalario(rs.getDouble("salario"));
+                mecanico.setDisponibilidade(rs.getBoolean("disponibilidade"));
+                mecanico.setStatus(rs.getString("status"));
+                retorno.add(mecanico);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(MecanicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return mecanicos;
+        return retorno;
     }
 
-    public Mecanico buscarPorId(int id) throws SQLException {
+    public Mecanico buscar(Mecanico mecanico){
         String sql = "SELECT * FROM mecanico WHERE id_mec=?";
-        Mecanico mecanico = null;
+        Mecanico retorno = new Mecanico();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
-
-            ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                int id_mec = resultSet.getInt("id_mec");
-                String nome_mec = resultSet.getString("nome_mec");
-                String telefone_mec = resultSet.getString("telefone_mec");
-                String especialidade = resultSet.getString("especialidade");
-                String email = resultSet.getString("email");
-                BigDecimal salario = resultSet.getBigDecimal("salario");
-                boolean disponibilidade = resultSet.getBoolean("disponibilidade");
-                String status = resultSet.getString("status");
-                mecanico = new Mecanico(id_mec, nome_mec, telefone_mec, especialidade, email, salario, disponibilidade,
-                        status);
+            stmt.setInt(1, mecanico.getId_mec());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                mecanico.setNome_mec(rs.getString("nome_mec"));
+                mecanico.setTelefone_mec(rs.getString("telefone_mec"));
+                mecanico.setEspecialidade(rs.getString("especialidade"));
+                mecanico.setEmail(rs.getString("email"));
+                mecanico.setSalario(rs.getDouble("salario"));
+                mecanico.setDisponibilidade(rs.getBoolean("disponibilidade"));
+                mecanico.setStatus(rs.getString("status"));
+                retorno = mecanico;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(MecanicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return mecanico;
+        return retorno;
     }
 }
