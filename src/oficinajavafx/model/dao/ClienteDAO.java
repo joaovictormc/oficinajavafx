@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import oficinajavafx.model.domain.Cliente;
 
 public class ClienteDAO {
+
     private Connection connection;
 
     public Connection getConnection() {
@@ -19,7 +20,7 @@ public class ClienteDAO {
         this.connection = connection;
     }
 
-    public boolean inserir(Cliente cliente) throws SQLException {
+    public boolean inserir(Cliente cliente) {
         String sql = "INSERT INTO clientes(nome, endereco, telefone, cpf, email) VALUES (?, ?, ?, ?, ?)";
 
         try {
@@ -38,7 +39,7 @@ public class ClienteDAO {
         }
     }
 
-    public boolean alterar(Cliente cliente) throws SQLException {
+    public boolean alterar(Cliente cliente) {
         String sql = "UPDATE clientes SET nome = ?, endereco = ?, telefone = ?, cpf = ?, email = ? WHERE id_cli = ?";
 
         try {
@@ -48,7 +49,7 @@ public class ClienteDAO {
             stmt.setString(3, cliente.getTelefone());
             stmt.setString(4, cliente.getCpf());
             stmt.setString(5, cliente.getEmail());
-            stmt.setInt(6, cliente.getIdCli());
+            stmt.setInt(6, cliente.getId_Cli());
 
             stmt.execute();
             return true;
@@ -58,13 +59,12 @@ public class ClienteDAO {
         }
     }
 
-    public boolean excluir(int idCli) throws SQLException {
+    public boolean excluir(Cliente cliente) {
         String sql = "DELETE FROM clientes WHERE id_cli = ?";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, idCli);
-
+            stmt.setInt(1, cliente.getId_Cli());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -73,55 +73,49 @@ public class ClienteDAO {
         }
     }
 
-    public List<Cliente> listar() throws SQLException {
+    public List<Cliente> listar() {
         String sql = "SELECT * FROM clientes";
-        List<Cliente> clientes = new ArrayList<>();
+        List<Cliente> retorno = new ArrayList<>();
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Cliente cliente = new Cliente(
-                        rs.getInt("id_cli"),
-                        rs.getString("nome"),
-                        rs.getString("endereco"),
-                        rs.getString("telefone"),
-                        rs.getString("cpf"),
-                        rs.getString("email"));
-                clientes.add(cliente);
+                Cliente cliente = new Cliente();
+                cliente.setId_Cli(rs.getInt("id_cli"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setEmail(rs.getString("email"));
+                retorno.add(cliente);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return clientes;
+        return retorno;
     }
 
-    public Cliente buscar(int idCli) throws SQLException {
+    public Cliente buscar(Cliente cliente) {
         String sql = "SELECT * FROM clientes WHERE id_cli = ?";
-
+        Cliente retorno = new Cliente();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, idCli);
+            stmt.setInt(1, cliente.getId_Cli());
             ResultSet rs = stmt.executeQuery();
-            
-                if (rs.next()) {
-                    Cliente cliente = new Cliente(
-                            rs.getInt("id_cli"),
-                            rs.getString("nome"),
-                            rs.getString("endereco"),
-                            rs.getString("telefone"),
-                            rs.getString("cpf"),
-                            rs.getString("email")
-                    );
-                    return cliente;
-                } else {
-                    return null;
-                }
-            
+
+            if (rs.next()) {
+                cliente.setNome(rs.getString("nome"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setEmail(rs.getString("email"));
+                retorno = cliente;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return retorno;
     }
 }

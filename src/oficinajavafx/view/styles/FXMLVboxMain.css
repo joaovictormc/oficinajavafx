@@ -1,6 +1,7 @@
 .menuBar {
     -fx-background-color: #565656;
-    
+    -fx-alignment: center;
+    -fx-spacing: 150;
 }
 
 .telaPrincipal {

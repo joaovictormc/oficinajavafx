@@ -76,6 +76,7 @@ public class FXMLLoginController implements Initializable {
                 Parent root = FXMLLoader.load(getClass().getResource("/oficinajavafx/view/FXMLVboxMain.fxml"));
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
             } else {

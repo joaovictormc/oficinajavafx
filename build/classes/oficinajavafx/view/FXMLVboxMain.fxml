@@ -12,14 +12,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox fx:id="telaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1280.0" styleClass="telaPrincipal" stylesheets="@styles/FXMLVboxMain.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="telaPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="telaPrincipal" stylesheets="@styles/FXMLVboxMain.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLVboxMainController">
    <children>
-      <MenuBar fx:id="menuBar" prefHeight="83.0" prefWidth="1140.0" styleClass="menuBar" stylesheets="@styles/FXMLVboxMain.css">
+      <MenuBar fx:id="menuBar" prefHeight="83.0" prefWidth="1280.0" styleClass="menuBar" stylesheets="@styles/FXMLVboxMain.css">
         <menus>
           <Menu mnemonicParsing="false">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="menuCliente" mnemonicParsing="false" onAction="#handleMenuCadastrarCliente" text="Clientes" />
+                  <MenuItem fx:id="menuMecanico" mnemonicParsing="false" text="Mecânicos" />
+                  <MenuItem fx:id="menuServico" mnemonicParsing="false" text="Serviços" />
             </items>
                <graphic>
                   <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
@@ -31,7 +32,9 @@
           </Menu>
           <Menu mnemonicParsing="false">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="menuOrcamento" mnemonicParsing="false" text="Orçamentos" />
+                  <MenuItem fx:id="menuAgendamento" mnemonicParsing="false" text="Agengamento de Servços" />
+                  <MenuItem fx:id="menuAvaliacao" mnemonicParsing="false" text="Avaliação dos Serviços" />
             </items>
                <graphic>
                   <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
@@ -43,7 +46,9 @@
           </Menu>
           <Menu mnemonicParsing="false">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="menuOS" mnemonicParsing="false" text="Ordem de Serviço" />
+                  <MenuItem fx:id="menuServicoRealizado" mnemonicParsing="false" text="Serviços Realizados" />
+                  <MenuItem fx:id="menuAvaliacaoCliente" mnemonicParsing="false" text="Avaliação de Clientes" />
             </items>
                <graphic>
                   <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
@@ -73,7 +78,7 @@
             <DropShadow />
          </effect>
       </MenuBar>
-      <AnchorPane prefHeight="570.0" prefWidth="1280.0">
+      <AnchorPane fx:id="anchorPane" prefHeight="637.0" prefWidth="1280.0">
          <children>
             <ImageView fitHeight="59.0" fitWidth="55.0" layoutX="14.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -83,7 +88,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fitHeight="490.0" fitWidth="501.0" layoutX="395.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="568.0" fitWidth="620.0" layoutX="356.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@icones/novologo.png" />
                </image>

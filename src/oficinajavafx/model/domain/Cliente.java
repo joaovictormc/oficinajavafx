@@ -1,15 +1,17 @@
 package oficinajavafx.model.domain;
 
 public class Cliente {
-    private int idCli;
+    private int id_cli;
     private String nome;
     private String endereco;
     private String telefone;
     private String cpf;
     private String email;
+    
+    public Cliente() {}
 
-    public Cliente(int idCli, String nome, String endereco, String telefone, String cpf, String email) {
-        this.idCli = idCli;
+    public Cliente(int id_cli, String nome, String endereco, String telefone, String cpf, String email) {
+        this.id_cli = id_cli;
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
@@ -17,13 +19,13 @@ public class Cliente {
         this.email = email;
     }
 
-
-    public int getIdCli() {
-        return idCli;
+    
+    public int getId_Cli() {
+        return id_cli;
     }
 
-    public void setIdCli(int idCli) {
-        this.idCli = idCli;
+    public void setId_Cli(int id_cli) {
+        this.id_cli = id_cli;
     }
 
     public String getNome() {
@@ -64,6 +66,11 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    @Override
+    public String toString() {
+        return this.nome;
     }
 }
 
