@@ -1,7 +1,6 @@
 package oficinajavafx.model.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class Servico implements Serializable{
 
@@ -11,45 +10,43 @@ public class Servico implements Serializable{
     private double valor;
     private Mecanico mecanico;
     private String complexidade;
+    private Orcamento orcamento;
     
     
     public Servico() {
     }
-    
-    public Servico(int id_servicos, String tipo_Servico, String tempo_Estimado, double valor, Mecanico mecanico, String complexidade) {
+
+    public Servico(int id_servicos, String tipo_Servico, String tempo_Estimado, double valor, Mecanico mecanico, String complexidade, Orcamento orcamento) {
         this.id_servicos = id_servicos;
         this.tipo_Servico = tipo_Servico;
         this.tempo_Estimado = tempo_Estimado;
         this.valor = valor;
         this.mecanico = mecanico;
         this.complexidade = complexidade;
+        this.orcamento = orcamento;
     }
 
-    
-    
-
-    // Getters e Setters
     public int getId_servicos() {
         return id_servicos;
     }
 
-    public void setId_serveicos(int id_servicos) {
+    public void setId_servicos(int id_servicos) {
         this.id_servicos = id_servicos;
     }
 
-    public String getTipo_servico() {
+    public String getTipo_Servico() {
         return tipo_Servico;
     }
 
-    public void setTipo_servico(String tipo_Servico) {
+    public void setTipo_Servico(String tipo_Servico) {
         this.tipo_Servico = tipo_Servico;
     }
 
-    public String getTempo_estimado() {
+    public String getTempo_Estimado() {
         return tempo_Estimado;
     }
 
-    public void setTempo_estimado(String tempo_Estimado) {
+    public void setTempo_Estimado(String tempo_Estimado) {
         this.tempo_Estimado = tempo_Estimado;
     }
 
@@ -76,5 +73,12 @@ public class Servico implements Serializable{
     public void setComplexidade(String complexidade) {
         this.complexidade = complexidade;
     }
-}
 
+    public Orcamento getOrcamento() {
+        return orcamento;
+    }
+
+    public void setOrcamento(Orcamento orcamento) {
+        this.orcamento = orcamento;
+    }
+}

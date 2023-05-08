@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import oficinajavafx.model.domain.Cliente;
@@ -16,6 +18,7 @@ import oficinajavafx.model.domain.Orcamento;
 import oficinajavafx.model.domain.Servico;
 
 public class OrcamentoDAO {
+
     private Connection connection;
 
     public Connection getConnection() {
@@ -43,7 +46,6 @@ public class OrcamentoDAO {
             stmt.setDouble(11, orcamento.getValor_final());
             stmt.setBoolean(12, orcamento.getSituacao());
             stmt.setInt(13, orcamento.getCliente().getId_Cli());
-            stmt.setInt(14, orcamento.getServico().getId_servicos());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -69,7 +71,7 @@ public class OrcamentoDAO {
             stmt.setDouble(11, orcamento.getValor_final());
             stmt.setBoolean(12, orcamento.getSituacao());
             stmt.setInt(13, orcamento.getCliente().getId_Cli());
-            stmt.setInt(14, orcamento.getServico().getId_servicos());
+            stmt.setInt(14, orcamento.getId_os());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -100,8 +102,8 @@ public class OrcamentoDAO {
             while (rs.next()) {
                 Orcamento orcamento = new Orcamento();
                 Cliente cliente = new Cliente();
-                Servico servico = new Servico();
-                
+                List<Servico> servico = new ArrayList<>();
+
                 orcamento.setId_os(rs.getInt("id_os"));
                 orcamento.setTipo_veiculo(rs.getString("tipo_veiculo"));
                 orcamento.setModelo_veiculo(rs.getString("modelo-veiculo"));
@@ -114,18 +116,17 @@ public class OrcamentoDAO {
                 orcamento.setDescontos(rs.getInt("descontos"));
                 orcamento.setValor_final(rs.getDouble("valor_final"));
                 orcamento.setSituacao(rs.getBoolean("situacao"));
-                
+
                 //pegando os dados da tabela cliente
                 ClienteDAO clienteDAO = new ClienteDAO();
                 clienteDAO.setConnection(connection);
                 cliente = clienteDAO.buscar(cliente);
-                
-                
+
                 //pegando os dados da tabela servico
                 ServicoDAO servicoDAO = new ServicoDAO();
                 servicoDAO.setConnection(connection);
                 servico = servicoDAO.buscar(servico);
-                
+
                 orcamento.setCliente(cliente);
                 orcamento.setServico(servico);
                 retorno.add(orcamento);
@@ -137,7 +138,7 @@ public class OrcamentoDAO {
         return retorno;
     }
 
-    public Orcamento buscar(int id) {
+    public Orcamento buscarPorId(int id) {
         String sql = "SELECT * FROM orcamentos WHERE id_os=?";
         Orcamento retorno = new Orcamento();
         try {
@@ -147,8 +148,8 @@ public class OrcamentoDAO {
             if (rs.next()) {
                 Orcamento orcamento = new Orcamento();
                 Cliente cliente = new Cliente();
-                Servico servico = new Servico();
-                
+                List<Servico> servico = new ArrayList<>();
+
                 orcamento.setId_os(rs.getInt("id_os"));
                 orcamento.setTipo_veiculo(rs.getString("tipo_veiculo"));
                 orcamento.setModelo_veiculo(rs.getString("modelo-veiculo"));
@@ -161,21 +162,20 @@ public class OrcamentoDAO {
                 orcamento.setDescontos(rs.getInt("descontos"));
                 orcamento.setValor_final(rs.getDouble("valor_final"));
                 orcamento.setSituacao(rs.getBoolean("situacao"));
-                
+
                 //pegando os dados da tabela cliente
                 ClienteDAO clienteDAO = new ClienteDAO();
                 clienteDAO.setConnection(connection);
                 cliente = clienteDAO.buscar(cliente);
-                
-                
+
                 //pegando os dados da tabela servico
                 ServicoDAO servicoDAO = new ServicoDAO();
                 servicoDAO.setConnection(connection);
                 servico = servicoDAO.buscar(servico);
-                
+
                 orcamento.setCliente(cliente);
                 orcamento.setServico(servico);
-                
+
                 retorno = orcamento;
             }
 
@@ -185,4 +185,30 @@ public class OrcamentoDAO {
         return retorno;
     }
 
+    public Map<Integer, ArrayList> listarOrcamentosPorMes() {
+        String sql = "SELECT COUNT(id_os), EXTRACT(year from data) AS ano, EXTRACT(month from data) AS mes FROM orcamento GROUP BY ano, mes ORDER BY ano, mes";
+        Map<Integer, ArrayList> retorno = new HashMap();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ArrayList linha = new ArrayList();
+                if (!retorno.containsKey(rs.getInt("ano"))) {
+                    linha.add(rs.getInt("mes"));
+                    linha.add(rs.getInt("count"));
+                    retorno.put(rs.getInt("ano"), linha);
+                } else {
+                    ArrayList linhaNova = retorno.get(rs.getInt("ano"));
+                    linhaNova.add(rs.getInt("mes"));
+                    linhaNova.add(rs.getInt("count"));
+                }
+                return retorno;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrcamentoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retorno;
+    }
 }

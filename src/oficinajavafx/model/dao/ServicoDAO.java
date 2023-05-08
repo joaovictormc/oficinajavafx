@@ -27,8 +27,8 @@ public class ServicoDAO {
         String sql = "INSERT INTO servicos (tipo_servico, tempo_estimado, valor, id_mecanico, complexidade) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, servicos.getTipo_servico());
-            stmt.setString(2, servicos.getTempo_estimado());
+            stmt.setString(1, servicos.getTipo_Servico());
+            stmt.setString(2, servicos.getTempo_Estimado());
             stmt.setDouble(3, servicos.getValor());
             stmt.setInt(4, servicos.getMecanico().getId_mec());
             stmt.setString(5, servicos.getComplexidade());
@@ -44,8 +44,8 @@ public class ServicoDAO {
         String sql = "UPDATE servicos SET tipo_servico=?, tempo_estimado=?, valor=?, id_mecanico=?, complexidade=? WHERE id_servicos=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, servicos.getTipo_servico());
-            stmt.setString(2, servicos.getTempo_estimado());
+            stmt.setString(1, servicos.getTipo_Servico());
+            stmt.setString(2, servicos.getTempo_Estimado());
             stmt.setDouble(3, servicos.getValor());
             stmt.setInt(4, servicos.getMecanico().getId_mec());
             stmt.setString(5, servicos.getComplexidade());
@@ -81,9 +81,9 @@ public class ServicoDAO {
                 Servico servico = new Servico();
                 Mecanico mecanico = new Mecanico();
                 
-                servico.setId_serveicos(rs.getInt("id_servico"));
-                servico.setTipo_servico(rs.getString("tipo_servico"));
-                servico.setTempo_estimado(rs.getString("tempo_estimado"));
+                servico.setId_servicos(rs.getInt("id_servico"));
+                servico.setTipo_Servico(rs.getString("tipo_servico"));
+                servico.setTempo_Estimado(rs.getString("tempo_estimado"));
                 servico.setValor(rs.getDouble("valor"));
                 mecanico.setId_mec(rs.getInt("id_mec"));
                 servico.setComplexidade(rs.getString("complexidade"));
@@ -114,9 +114,9 @@ public class ServicoDAO {
             if (rs.next()) {
                 Mecanico mecanico = new Mecanico();
                 
-                servico.setId_serveicos(rs.getInt("id_servico"));
-                servico.setTipo_servico(rs.getString("tipo_servico"));
-                servico.setTempo_estimado(rs.getString("tempo_estimado"));
+                servico.setId_servicos(rs.getInt("id_servico"));
+                servico.setTipo_Servico(rs.getString("tipo_servico"));
+                servico.setTempo_Estimado(rs.getString("tempo_estimado"));
                 servico.setValor(rs.getDouble("valor"));
                 mecanico.setId_mec(rs.getInt("id_mec"));
                 servico.setComplexidade(rs.getString("complexidade"));

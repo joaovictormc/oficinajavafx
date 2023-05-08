@@ -24,8 +24,11 @@ CREATE TABLE mecanico (
     email VARCHAR(50),
     salario FLOAT,
 	disponibilidade boolean,
-	status varchar(10)
+	status varchar(20)
 );
+
+insert into mecanico(nome_mec, telefone_mec, especialidade, email, salario, disponibilidade, status)
+values ('Tião Lanterneiro', '(28) 99958-4856', 'Lanternagem e Funilaria', 'tiao@gmail.com', '5312.84', true, 'em serviço');
 
 CREATE TABLE servicos (
     id_servicos SERIAL PRIMARY KEY,

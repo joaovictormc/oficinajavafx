@@ -1,10 +1,10 @@
 package oficinajavafx.model.domain;
 
-//import java.io.Serializable;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Orcamento {
+public class Orcamento implements Serializable{
 
     private int id_os;
     private String tipo_veiculo;
@@ -19,13 +19,13 @@ public class Orcamento {
     private int descontos;
     private double valor_final;
     private boolean situacao;
-    private Servico servico;
+    private List<Servico> servico;
     private Cliente cliente;
     
     public Orcamento() {
     }
 
-    public Orcamento(int id_os, String tipo_veiculo, String modelo_veiculo, String ano_veiculo, String marca_veiculo, String avarias, LocalDate data_entrada, LocalDate data_saida, String defeito_relatado, String defeito_constatado, int descontos, double valor_final, boolean situacao, Servico servico, Cliente cliente) {
+    public Orcamento(int id_os, String tipo_veiculo, String modelo_veiculo, String ano_veiculo, String marca_veiculo, String avarias, LocalDate data_entrada, LocalDate data_saida, String defeito_relatado, String defeito_constatado, int descontos, double valor_final, boolean situacao, List<Servico> servico, Cliente cliente) {
         this.id_os = id_os;
         this.tipo_veiculo = tipo_veiculo;
         this.modelo_veiculo = modelo_veiculo;
@@ -42,8 +42,6 @@ public class Orcamento {
         this.servico = servico;
         this.cliente = cliente;
     }
-
-    
 
     public int getId_os() {
         return id_os;
@@ -84,7 +82,7 @@ public class Orcamento {
     public void setMarca_veiculo(String marca_veiculo) {
         this.marca_veiculo = marca_veiculo;
     }
-    
+
     public String getAvarias() {
         return avarias;
     }
@@ -133,11 +131,11 @@ public class Orcamento {
         this.descontos = descontos;
     }
 
-    public Double getValor_final() {
+    public double getValor_final() {
         return valor_final;
     }
 
-    public void setValor_final(Double valor_final) {
+    public void setValor_final(double valor_final) {
         this.valor_final = valor_final;
     }
 
@@ -149,11 +147,11 @@ public class Orcamento {
         this.situacao = situacao;
     }
 
-    public Servico getServico() {
+    public List<Servico> getServico() {
         return servico;
     }
 
-    public void setServico(Servico servico) {
+    public void setServico(List<Servico> servico) {
         this.servico = servico;
     }
 
