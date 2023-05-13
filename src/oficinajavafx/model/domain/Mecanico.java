@@ -10,11 +10,12 @@ public class Mecanico {
     private double salario;
     private boolean disponibilidade;
     private String status;
+    private int id_servico;
 
     public Mecanico() {
     }
 
-    public Mecanico(int id_mec, String nome_mec, String telefone_mec, String especialidade, String email, double salario, boolean disponibilidade, String status) {
+    public Mecanico(int id_mec, String nome_mec, String telefone_mec, String especialidade, String email, double salario, boolean disponibilidade, String status, Servico servico) {
         this.id_mec = id_mec;
         this.nome_mec = nome_mec;
         this.telefone_mec = telefone_mec;
@@ -23,6 +24,7 @@ public class Mecanico {
         this.salario = salario;
         this.disponibilidade = disponibilidade;
         this.status = status;
+        this.id_servico = servico.getId_servicos();
     }
 
     public int getId_mec() {
@@ -83,6 +85,14 @@ public class Mecanico {
 
     public String getStatus() {
         return status;
+    }
+
+    public int getId_servico() {
+        return id_servico;
+    }
+
+    public void setId_servico(int id_servico) {
+        this.id_servico = id_servico;
     }
 
     public void setStatus(String status) {

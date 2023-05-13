@@ -58,7 +58,7 @@ public class ServicoDAO {
         }
     }
 
-    public boolean deletar(Servico servico) {
+    public boolean excluir(Servico servico) {
         String sql = "DELETE FROM servicos WHERE id_servicos=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -136,7 +136,9 @@ public class ServicoDAO {
         return retorno;
     }
 
-    List<Servico> buscar(List<Servico> servico) {
+    Servico buscar(List<Servico> servico) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 }

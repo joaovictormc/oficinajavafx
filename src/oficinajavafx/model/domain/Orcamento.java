@@ -2,6 +2,7 @@ package oficinajavafx.model.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Orcamento implements Serializable{
@@ -19,10 +20,11 @@ public class Orcamento implements Serializable{
     private int descontos;
     private double valor_final;
     private boolean situacao;
-    private List<Servico> servico;
-    private Cliente cliente;
+    private List<String> tipo_servico;
+    private int id_cli;
     
     public Orcamento() {
+        this.tipo_servico = new ArrayList<>();
     }
 
     public Orcamento(int id_os, String tipo_veiculo, String modelo_veiculo, String ano_veiculo, String marca_veiculo, String avarias, LocalDate data_entrada, LocalDate data_saida, String defeito_relatado, String defeito_constatado, int descontos, double valor_final, boolean situacao, List<Servico> servico, Cliente cliente) {
@@ -39,8 +41,11 @@ public class Orcamento implements Serializable{
         this.descontos = descontos;
         this.valor_final = valor_final;
         this.situacao = situacao;
-        this.servico = servico;
-        this.cliente = cliente;
+        this.tipo_servico = new ArrayList<>();
+        for (Servico s : servico) {
+            this.tipo_servico.add(s.getTipo_Servico());
+        }
+        this.id_cli = cliente.getId_Cli();
     }
 
     public int getId_os() {
@@ -147,21 +152,20 @@ public class Orcamento implements Serializable{
         this.situacao = situacao;
     }
 
-    public List<Servico> getServico() {
-        return servico;
+    public List<String> getTipo_servico() {
+        return tipo_servico;
     }
 
-    public void setServico(List<Servico> servico) {
-        this.servico = servico;
+    public void setTipo_servico(List<String> tipo_servico) {
+        this.tipo_servico = tipo_servico;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public int getId_cli() {
+        return id_cli;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setId_cli(int id_cli) {
+        this.id_cli = id_cli;
     }
-
     
 }

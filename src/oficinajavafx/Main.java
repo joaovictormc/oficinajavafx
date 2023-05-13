@@ -13,7 +13,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("view/FXMLLogin.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("SOS AutoCar");
+        stage.setTitle("Oficina do Baiano");
         stage.setResizable(false);
         stage.show();
     }

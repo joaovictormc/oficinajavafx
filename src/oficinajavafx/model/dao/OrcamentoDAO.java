@@ -45,7 +45,7 @@ public class OrcamentoDAO {
             stmt.setInt(10, orcamento.getDescontos());
             stmt.setDouble(11, orcamento.getValor_final());
             stmt.setBoolean(12, orcamento.getSituacao());
-            stmt.setInt(13, orcamento.getCliente().getId_Cli());
+            stmt.setInt(13, orcamento.getId_cli());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -70,7 +70,7 @@ public class OrcamentoDAO {
             stmt.setInt(10, orcamento.getDescontos());
             stmt.setDouble(11, orcamento.getValor_final());
             stmt.setBoolean(12, orcamento.getSituacao());
-            stmt.setInt(13, orcamento.getCliente().getId_Cli());
+            stmt.setInt(13, orcamento.getId_cli());
             stmt.setInt(14, orcamento.getId_os());
             stmt.execute();
             return true;
@@ -102,15 +102,14 @@ public class OrcamentoDAO {
             while (rs.next()) {
                 Orcamento orcamento = new Orcamento();
                 Cliente cliente = new Cliente();
-                List<Servico> servico = new ArrayList<>();
 
                 orcamento.setId_os(rs.getInt("id_os"));
                 orcamento.setTipo_veiculo(rs.getString("tipo_veiculo"));
-                orcamento.setModelo_veiculo(rs.getString("modelo-veiculo"));
+                orcamento.setModelo_veiculo(rs.getString("modelo_veiculo"));
                 orcamento.setMarca_veiculo(rs.getString("marca_veiculo"));
                 orcamento.setAno_veiculo(rs.getString("ano_veiculo"));
                 orcamento.setData_entrada(rs.getDate("data_entrada").toLocalDate());
-                orcamento.setData_saida(rs.getDate("data-saida").toLocalDate());
+                orcamento.setData_saida(rs.getDate("data_saida").toLocalDate());
                 orcamento.setDefeito_relatado(rs.getString("defeito_relatado"));
                 orcamento.setDefeito_constatado(rs.getString("defeito_constatado"));
                 orcamento.setDescontos(rs.getInt("descontos"));
@@ -120,15 +119,18 @@ public class OrcamentoDAO {
                 //pegando os dados da tabela cliente
                 ClienteDAO clienteDAO = new ClienteDAO();
                 clienteDAO.setConnection(connection);
-                cliente = clienteDAO.buscar(cliente);
-
+                cliente = clienteDAO.buscar(rs.getInt("id_cliente"));
+                orcamento.getId_cli();
+                
+                
                 //pegando os dados da tabela servico
                 ServicoDAO servicoDAO = new ServicoDAO();
                 servicoDAO.setConnection(connection);
-                servico = servicoDAO.buscar(servico);
+                List<Servico> servico = new ArrayList<>();
+                servico.add(servicoDAO.buscar(servico));
+                orcamento.getTipo_servico();
 
-                orcamento.setCliente(cliente);
-                orcamento.setServico(servico);
+                
                 retorno.add(orcamento);
             }
 
@@ -148,7 +150,7 @@ public class OrcamentoDAO {
             if (rs.next()) {
                 Orcamento orcamento = new Orcamento();
                 Cliente cliente = new Cliente();
-                List<Servico> servico = new ArrayList<>();
+                
 
                 orcamento.setId_os(rs.getInt("id_os"));
                 orcamento.setTipo_veiculo(rs.getString("tipo_veiculo"));
@@ -166,15 +168,19 @@ public class OrcamentoDAO {
                 //pegando os dados da tabela cliente
                 ClienteDAO clienteDAO = new ClienteDAO();
                 clienteDAO.setConnection(connection);
-                cliente = clienteDAO.buscar(cliente);
-
+                cliente = clienteDAO.buscar(rs.getInt("id_cliente"));
+                orcamento.getId_cli();
+                
+                
                 //pegando os dados da tabela servico
                 ServicoDAO servicoDAO = new ServicoDAO();
                 servicoDAO.setConnection(connection);
-                servico = servicoDAO.buscar(servico);
+                List<Servico> servico = new ArrayList<>();
+                servico.add(servicoDAO.buscar(servico));
+                orcamento.getTipo_servico();
 
-                orcamento.setCliente(cliente);
-                orcamento.setServico(servico);
+                
+                
 
                 retorno = orcamento;
             }

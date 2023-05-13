@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -22,7 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import oficinajavafx.model.dao.OrcamentoDAO;
+import oficinajavafx.model.dao.Orcamento2DAO;
 import oficinajavafx.model.dao.ServicoDAO;
 import oficinajavafx.model.database.Database;
 import oficinajavafx.model.database.DatabaseFactory;
@@ -38,7 +39,7 @@ public class FXMLOrcamentosController implements Initializable {
     @FXML
     private TableColumn<Orcamento, Date> tblColumnEntrada;
     @FXML
-    private TableColumn<Orcamento, Orcamento> tblColumnCliente;
+    private TableColumn<Orcamento, String> tblColumnCliente;
 
     @FXML
     private Label lblOSID;
@@ -84,23 +85,27 @@ public class FXMLOrcamentosController implements Initializable {
     //conexão com o banco
     private final Database database = DatabaseFactory.getDatabase("postgresql");
     private final Connection connection = database.conectar();
-    private final OrcamentoDAO orcamentoDAO = new OrcamentoDAO();
+    private final Orcamento2DAO orcamento2DAO = new Orcamento2DAO();
     private final ServicoDAO servicoDAO = new ServicoDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        orcamentoDAO.setConnection(connection);
-        carregarTblViewOS();
+        orcamento2DAO.setConnection(connection);
+        try {
+            carregarTblViewOS();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLOrcamentosController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         selectItemTblViewOS(null);
         tblViewOS.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectItemTblViewOS(newValue));
     }
 
-    public void carregarTblViewOS() {
+    public void carregarTblViewOS() throws SQLException {
         tblColumnID.setCellValueFactory(new PropertyValueFactory<>("id_os"));
         tblColumnEntrada.setCellValueFactory(new PropertyValueFactory<>("data_entrada"));
         tblColumnCliente.setCellValueFactory(new PropertyValueFactory<>("cliente"));
 
-        listOrcamento = orcamentoDAO.listar();
+        listOrcamento = orcamento2DAO.listar();
 
         observableListOS = FXCollections.observableArrayList(listOrcamento);
         tblViewOS.setItems(observableListOS);
@@ -115,10 +120,9 @@ public class FXMLOrcamentosController implements Initializable {
             lblVeiculoMarca.setText(orcamento.getMarca_veiculo());
             lblOSAvaria.setText(orcamento.getAvarias());
             lblOSEntrada.setText(String.valueOf(orcamento.getData_entrada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
-            lblOSSaida.setText(String.valueOf(orcamento.getData_saida().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
             lblOSDefeitoRelatado.setText(orcamento.getDefeito_relatado());
             lblOSDefeitoConstatado.setText(orcamento.getDefeito_constatado());
-            lblOSCliente.setText(orcamento.getCliente().toString());
+            lblOSCliente.setText(String.valueOf(orcamento.getId_cli()));
             lblOSSituacao.setText(String.valueOf(orcamento.getSituacao()));
             lblOSDesconto.setText(String.valueOf(orcamento.getDescontos()));
             lblOSValor.setText(String.format("%.2f", orcamento.getValor_final()));
@@ -130,7 +134,6 @@ public class FXMLOrcamentosController implements Initializable {
             lblVeiculoMarca.setText("");
             lblOSAvaria.setText("");
             lblOSEntrada.setText("");
-            lblOSSaida.setText("");
             lblOSDefeitoRelatado.setText("");
             lblOSDefeitoConstatado.setText("");
             lblOSCliente.setText("");
@@ -142,19 +145,18 @@ public class FXMLOrcamentosController implements Initializable {
 
     @FXML
     public void buttonInserir() throws IOException {
-        Orcamento os = new Orcamento();
-        List<Servico> listServico = new ArrayList<>();
-        os.setServico(listServico);
-        boolean btnConfirmarClick = showFXMLInserirOrcamento(os);
+        Orcamento orcamento = new Orcamento();
+        List<String> listServicos = new ArrayList<>();
+        orcamento.setTipo_servico(listServicos);
+        boolean btnConfirmarClick = showFXMLInserirOrcamento(orcamento);
         if (btnConfirmarClick) {
             try {
                 connection.setAutoCommit(false);
-                orcamentoDAO.setConnection(connection);
-                orcamentoDAO.inserir(os);
+                orcamento2DAO.setConnection(connection);
+                orcamento2DAO.inserir(orcamento);
                 servicoDAO.setConnection(connection);
-                for (Servico listServicos : os.getServico()) {
-                    listServicos.setOrcamento(os);
-                    servicoDAO.inserir(listServicos);
+                for (String servicos : orcamento.getTipo_servico()) {
+                    listServicos.add(servicos);
                 }
                 connection.commit();
             } catch (SQLException e) {
@@ -168,6 +170,62 @@ public class FXMLOrcamentosController implements Initializable {
         }
     }
 
+    @FXML
+    public void buttonRemover() {
+        Orcamento orcamento = tblViewOS.getSelectionModel().getSelectedItem();
+        if (orcamento != null) {
+            try {
+                connection.setAutoCommit(false);
+                orcamento2DAO.setConnection(connection);
+                servicoDAO.setConnection(connection);
+                Servico servico = null;
+                orcamento2DAO.removerServicoOrcamento(orcamento, servico);
+                orcamento2DAO.excluir(orcamento);
+                tblViewOS.getItems().remove(orcamento);
+                connection.commit();
+            } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (Exception ex) {
+                    Logger.getLogger(FXMLOrcamentosController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Logger.getLogger(FXMLOrcamentosController.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Por favor, escolha um oçamento na Tabela!");
+            alert.show();
+        }
+    }
+
+    @FXML
+    public void buttonAlterar() {
+        Orcamento orcamento = tblViewOS.getSelectionModel().getSelectedItem();
+        if (orcamento != null) {
+            try {
+                connection.setAutoCommit(false);
+                orcamento2DAO.setConnection(connection);
+                servicoDAO.setConnection(connection);
+                Servico servico = null;
+                orcamento2DAO.removerServicoOrcamento(orcamento, servico);
+                orcamento2DAO.alterar(orcamento);
+                tblViewOS.getItems().set(tblViewOS.getSelectionModel().getSelectedIndex(), orcamento);
+                connection.commit();
+            } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (Exception ex) {
+                    Logger.getLogger(FXMLOrcamentosController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Logger.getLogger(FXMLOrcamentosController.class.getName()).log(Level.SEVERE, null, e);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Por favor, escolha um orçamento na Tabela!");
+            alert.show();
+        }
+    }
 
     public boolean showFXMLInserirOrcamento(Orcamento orcamento) throws IOException {
         FXMLLoader loader = new FXMLLoader();

@@ -98,15 +98,16 @@ public class ClienteDAO {
         return retorno;
     }
 
-    public Cliente buscar(Cliente cliente) {
+    public Cliente buscar(int id) {
         String sql = "SELECT * FROM clientes WHERE id_cli = ?";
         Cliente retorno = new Cliente();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, cliente.getId_Cli());
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                Cliente cliente = new Cliente();
                 cliente.setNome(rs.getString("nome"));
                 cliente.setEndereco(rs.getString("endereco"));
                 cliente.setTelefone(rs.getString("telefone"));
@@ -119,4 +120,6 @@ public class ClienteDAO {
         }
         return retorno;
     }
+    
+
 }

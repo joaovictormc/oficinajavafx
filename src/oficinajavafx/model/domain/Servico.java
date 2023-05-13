@@ -81,4 +81,9 @@ public class Servico implements Serializable{
     public void setOrcamento(Orcamento orcamento) {
         this.orcamento = orcamento;
     }
+    
+    @Override
+    public String toString() {
+        return this.tipo_Servico;
+    }
 }

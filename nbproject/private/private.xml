@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jvict/Documents/GitHub/oficinajavafx/src/oficinajavafx/model/domain/Avaliacao.java</file>
+            <file>file:/C:/Users/jvict/Documents/GitHub/oficinajavafx/src/oficinajavafx/model/dao/OrcamentoDAO.java</file>
+            <file>file:/C:/Users/jvict/Documents/GitHub/oficinajavafx/src/oficinajavafx/controller/FXMLRelatorioOSPorMesController.java</file>
+            <file>file:/C:/Users/jvict/Documents/GitHub/oficinajavafx/src/oficinajavafx/model/dao/Orcamento2DAO.java</file>
             <file>file:/C:/Users/jvict/Documents/GitHub/oficinajavafx/src/oficinajavafx/controller/FXMLOrcamentosController.java</file>
         </group>
     </open-files>

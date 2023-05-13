@@ -59,11 +59,11 @@ public class MecanicoDAO {
         }
     }
 
-    public boolean deletar(int id){
+    public boolean excluir(Mecanico mecanico){
         String sql = "DELETE FROM mecanico WHERE id_mec=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setInt(1, mecanico.getId_mec());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
