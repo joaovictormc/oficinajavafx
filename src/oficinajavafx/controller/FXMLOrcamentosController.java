@@ -141,7 +141,7 @@ public class FXMLOrcamentosController implements Initializable {
     }
 
     @FXML
-    public void buttonInserir() throws IOException {
+    /*public void buttonInserir() throws IOException {
         Orcamento os = new Orcamento();
         List<Servico> listServico = new ArrayList<>();
         os.setServico(listServico);
@@ -166,7 +166,7 @@ public class FXMLOrcamentosController implements Initializable {
                 Logger.getLogger(FXMLOrcamentosController.class.getName()).log(Level.SEVERE, null, e);
             }
         }
-    }
+    }*/
 
 
     public boolean showFXMLInserirOrcamento(Orcamento orcamento) throws IOException {

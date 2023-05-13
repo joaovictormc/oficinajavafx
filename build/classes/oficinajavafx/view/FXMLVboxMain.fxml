@@ -20,7 +20,7 @@
             <items>
               <MenuItem fx:id="menuCliente" mnemonicParsing="false" onAction="#handleMenuCadastrarCliente" text="Clientes" />
                   <MenuItem fx:id="menuMecanico" mnemonicParsing="false" text="Mecânicos" />
-                  <MenuItem fx:id="menuServico" mnemonicParsing="false" text="Serviços" />
+                  <MenuItem fx:id="menuServico" mnemonicParsing="false" onAction="#handleMenuCadastrarServicos" text="Serviços" />
             </items>
                <graphic>
                   <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
