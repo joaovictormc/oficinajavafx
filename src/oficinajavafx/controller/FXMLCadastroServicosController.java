@@ -5,7 +5,6 @@
  */
 package oficinajavafx.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
@@ -13,22 +12,18 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import oficinajavafx.model.dao.MecanicoDAO;
 import oficinajavafx.model.dao.ServicoDAO;
 import oficinajavafx.model.database.Database;
 import oficinajavafx.model.database.DatabaseFactory;
-import oficinajavafx.model.domain.Cliente;
+import oficinajavafx.model.domain.Mecanico;
 import oficinajavafx.model.domain.Servico;
 
 /**
@@ -47,18 +42,22 @@ public class FXMLCadastroServicosController implements Initializable {
     @FXML
     private Button buttonRemover;
     @FXML
-    private Label textLabelTipoDeServico;
+    private TextField textFieldTipoDeServico;
     @FXML
-    private Label textLabelTempoEstimado;
+    private TextField textFieldTempoEstimado;
     @FXML
-    private Label textLabelValor;
+    private TextField textFieldValor;
     @FXML
-    private Label textLabelMecanico;
+    private ComboBox comboBoxMecanico;
     @FXML
-    private Label textLabelComplexidade;
+    private TextField textFieldComplexidade;
+    @FXML
+    private Label labelByWesley;
 
     private List<Servico> listServicos;
+    private List<Mecanico> listMecanicos;
     private ObservableList<Servico> observableListServicos;
+    private ObservableList<Mecanico> observableListMecanicos;
     
     //conexão com o banco
     private final Database database = DatabaseFactory.getDatabase("postgresql");
@@ -69,8 +68,9 @@ public class FXMLCadastroServicosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         servicoDAO.setConnection(connection);
-        
+        mecanicoDAO.setConnection(connection);
         carregarTableViewServicos();
+        carregarComboBoxMecanicos();
         selectItemTblViewServicos(null);
         listViewServicos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectItemTblViewServicos(newValue));
     }
@@ -81,65 +81,122 @@ public class FXMLCadastroServicosController implements Initializable {
         listViewServicos.setItems(observableListServicos);
     }
     
+    public void carregarComboBoxMecanicos() {
+        listMecanicos = mecanicoDAO.listar();
+        observableListMecanicos = FXCollections.observableArrayList(listMecanicos);
+        comboBoxMecanico.setItems(observableListMecanicos);
+    }
+    
     
     public void selectItemTblViewServicos(Servico servico) {
         if(servico != null){
-            textLabelTipoDeServico.setText(servico.getTipo_Servico());
-            textLabelTempoEstimado.setText(servico.getTempo_Estimado());
-            textLabelValor.setText(String.valueOf(servico.getValor()));
-            textLabelMecanico.setText(String.valueOf(servico.getMecanico()));
-            textLabelComplexidade.setText(servico.getComplexidade());
+            textFieldTipoDeServico.setText(servico.getTipo_Servico());
+            textFieldTempoEstimado.setText(servico.getTempo_Estimado());
+            textFieldValor.setText(String.valueOf(servico.getValor()));
+            textFieldComplexidade.setText(servico.getComplexidade());
+            comboBoxMecanico.getSelectionModel().select(servico.getMecanico());
         } else {
-            textLabelTipoDeServico.setText("");
-            textLabelTempoEstimado.setText("");
-            textLabelValor.setText("");
-            textLabelMecanico.setText("");
-            textLabelComplexidade.setText("");
+            textFieldComplexidade.setText("");
+            textFieldTempoEstimado.setText("");
+            textFieldTipoDeServico.setText("");
+            textFieldValor.setText("");
+            comboBoxMecanico.getSelectionModel().select(null);
         }
     }
     
     
     @FXML
-    public void handleBtnInserir() throws IOException {
-        Servico servico = listViewServicos.getSelectionModel().getSelectedItem();
-        if (servico == null) {
+    public void handleBtnInserir() {
+        Servico servico = new Servico();
+        Mecanico mecanico = (Mecanico)comboBoxMecanico.getSelectionModel().getSelectedItem();
+        
+        if (validarDadosDeEntrada()) {
             servico.setTipo_Servico(textFieldTipoDeServico.getText());
             servico.setTempo_Estimado(textFieldTempoEstimado.getText());
             servico.setValor(Double.valueOf(textFieldValor.getText()));
-            servico.setMecanico(textFieldMecanico.getText());
-            servico.setTipo_Servico(textFieldTipoDeServico.getText());
+            servico.setMecanico(mecanico);
+            servico.setComplexidade(textFieldComplexidade.getText());
+            if (servicoDAO.buscarPorTipoDeServico(servico) != null) {
+                servicoDAO.inserir(servico);
+                carregarTableViewServicos();
+                selectItemTblViewServicos(null);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erro no cadastro");
+                alert.setContentText("Este serviço já foi cadastrado");
+                alert.show();
+                selectItemTblViewServicos(null);
+            }
         }
     }
     
         
-    /*@FXML
-    public void handleBtnAlterar() throws IOException {
-        Cliente cliente = tblViewClientes.getSelectionModel().getSelectedItem();
-        if (cliente != null) {
-            boolean btnConfirmarClick = abrirTelaInserirClientes(cliente);
-            if (btnConfirmarClick) {
-                clienteDAO.alterar(cliente);
-                carregarTableViewClientes();
+    @FXML
+    public void handleBtnAlterar() {
+        Servico servico = listViewServicos.getSelectionModel().getSelectedItem();
+        Mecanico mecanico = (Mecanico)comboBoxMecanico.getSelectionModel().getSelectedItem();
+        
+        if (servico != null) {
+            if (validarDadosDeEntrada()) {
+                servico.setTipo_Servico(textFieldTipoDeServico.getText());
+                servico.setTempo_Estimado(textFieldTempoEstimado.getText());
+                servico.setValor(Double.valueOf(textFieldValor.getText()));
+                servico.setMecanico(mecanico);
+                servico.setComplexidade(textFieldComplexidade.getText());
+                servicoDAO.alterar(servico);
+                carregarTableViewServicos();
+                selectItemTblViewServicos(null);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor, Selecione um cliente na lista ao lado");
+            alert.setTitle("Erro no cadastro");
+            alert.setContentText("Por favor, Selecione um serviço na lista ao lado.");
             alert.show();
         }
-    }*/
-       
+    }   
     
-    /*@FXML
+    @FXML
     public void handleBtnRemover() {
-        Cliente cliente = tblViewClientes.getSelectionModel().getSelectedItem();
-        if (cliente != null) {
-            clienteDAO.excluir(cliente);
-            carregarTableViewClientes();
+        Servico servico = listViewServicos.getSelectionModel().getSelectedItem();
+        if (servico != null) {
+            servicoDAO.deletar(servico);
+            carregarTableViewServicos();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor, Selecione um cliente na lista ao lado");
+            alert.setTitle("Erro no cadastro");
+            alert.setContentText("Por favor, Selecione um cliente na lista ao lado.");
             alert.show();
         }
-    }*/
+    }
+    
+    public boolean validarDadosDeEntrada() {
+        String errorMessage = "";
+        if (textFieldComplexidade.getText() == null || textFieldComplexidade.getText().length() == 0) {
+            errorMessage += "Complexidade inválido!\n";
+        }
+        if (textFieldTempoEstimado.getText() == null || textFieldTempoEstimado.getText().length() == 0) {
+            errorMessage += "Tempo Estimado inválido!\n";
+        }
+        if (textFieldTipoDeServico.getText() == null || textFieldTipoDeServico.getText().length() == 0) {
+            errorMessage += "Tipo de serviço inválido!\n";
+        }
+        if (textFieldValor.getText() == null || textFieldValor.getText().length() == 0) {
+            errorMessage += "Valor inválido!\n";
+        }
+        if (comboBoxMecanico.getSelectionModel().getSelectedItem() == null) {
+            errorMessage += "Mecanico inválido!\n";
+        }
+        if (errorMessage.length() == 0) {
+            return true;
+        } else {
+            // Mostrando a mensagem de erro
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro no cadastro");
+            alert.setHeaderText("Campos inválidos, por favor, corrija...");
+            alert.setContentText(errorMessage);
+            alert.show();
+            return false;
+        }
+    }
     
 }

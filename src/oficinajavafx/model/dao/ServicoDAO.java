@@ -80,12 +80,12 @@ public class ServicoDAO {
             while (rs.next()) {
                 Servico servico = new Servico();
                 Mecanico mecanico = new Mecanico();
-                
-                servico.setId_servicos(rs.getInt("id_servico"));
+             
+                servico.setId_servicos(rs.getInt("id_servicos"));
                 servico.setTipo_Servico(rs.getString("tipo_servico"));
                 servico.setTempo_Estimado(rs.getString("tempo_estimado"));
                 servico.setValor(rs.getDouble("valor"));
-                mecanico.setId_mec(rs.getInt("id_mec"));
+                mecanico.setId_mec(rs.getInt("id_mecanico"));
                 servico.setComplexidade(rs.getString("complexidade"));
                 
                 //pegando dados da tabela mecanico
@@ -104,7 +104,7 @@ public class ServicoDAO {
         return retorno;
     }
 
-    public Servico buscar(Servico servico) {
+    public Servico buscarPorId(Servico servico) {
         String sql = "SELECT * FROM servicos WHERE id_servicos=?";
         Servico retorno = new Servico();
         try {
@@ -114,11 +114,11 @@ public class ServicoDAO {
             if (rs.next()) {
                 Mecanico mecanico = new Mecanico();
                 
-                servico.setId_servicos(rs.getInt("id_servico"));
+                servico.setId_servicos(rs.getInt("id_servicos"));
                 servico.setTipo_Servico(rs.getString("tipo_servico"));
                 servico.setTempo_Estimado(rs.getString("tempo_estimado"));
                 servico.setValor(rs.getDouble("valor"));
-                mecanico.setId_mec(rs.getInt("id_mec"));
+                mecanico.setId_mec(rs.getInt("id_mecanico"));
                 servico.setComplexidade(rs.getString("complexidade"));
                 
                 //pegando dados da tabela mecanico
@@ -135,8 +135,42 @@ public class ServicoDAO {
         }
         return retorno;
     }
+    
+    public Servico buscarPorTipoDeServico(Servico servico) {
+        String sql = "SELECT * FROM servicos WHERE tipo_servico=?";
+        Servico retorno = new Servico();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, servico.getTipo_Servico());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Mecanico mecanico = new Mecanico();
+                
+                servico.setId_servicos(rs.getInt("id_servicos"));
+                servico.setTipo_Servico(rs.getString("tipo_servico"));
+                servico.setTempo_Estimado(rs.getString("tempo_estimado"));
+                servico.setValor(rs.getDouble("valor"));
+                mecanico.setId_mec(rs.getInt("id_mecanico"));
+                servico.setComplexidade(rs.getString("complexidade"));
+                
+                //pegando dados da tabela mecanico
+                MecanicoDAO mecanicoDAO = new MecanicoDAO();
+                mecanicoDAO.setConnection(connection);
+                mecanico = mecanicoDAO.buscar(mecanico);
+                
+                servico.setMecanico(mecanico);
+                
+            }
+            
+            if (rs.next() == false) {
+                retorno = null;
+            } else {
+                retorno = servico;
+            }
 
-    List<Servico> buscar(List<Servico> servico) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retorno;
     }
 }

@@ -71,5 +71,10 @@ public class Servico implements Serializable{
     public void setComplexidade(String complexidade) {
         this.complexidade = complexidade;
     }
+
+    @Override
+    public String toString() {
+        return tipo_Servico;
+    }
     
 }
