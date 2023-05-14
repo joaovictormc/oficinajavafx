@@ -144,11 +144,19 @@ public class FXMLOrcamentosController implements Initializable {
     }
 
     @FXML
+<<<<<<< HEAD
     public void buttonInserir() throws IOException {
         Orcamento orcamento = new Orcamento();
         List<String> listServicos = new ArrayList<>();
         orcamento.setTipo_servico(listServicos);
         boolean btnConfirmarClick = showFXMLInserirOrcamento(orcamento);
+=======
+    /*public void buttonInserir() throws IOException {
+        Orcamento os = new Orcamento();
+        List<Servico> listServico = new ArrayList<>();
+        os.setServico(listServico);
+        boolean btnConfirmarClick = showFXMLInserirOrcamento(os);
+>>>>>>> wesley
         if (btnConfirmarClick) {
             try {
                 connection.setAutoCommit(false);
@@ -168,7 +176,7 @@ public class FXMLOrcamentosController implements Initializable {
                 Logger.getLogger(FXMLOrcamentosController.class.getName()).log(Level.SEVERE, null, e);
             }
         }
-    }
+    }*/
 
     @FXML
     public void buttonRemover() {

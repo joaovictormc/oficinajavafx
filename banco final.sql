@@ -1,5 +1,5 @@
 CREATE TABLE usuarios (
-    id serial PRIMARY KEY;
+    id serial PRIMARY KEY,
     usuario varchar(10),
     senha varchar(10)
 );

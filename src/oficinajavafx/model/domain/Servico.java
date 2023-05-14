@@ -10,20 +10,18 @@ public class Servico implements Serializable{
     private double valor;
     private Mecanico mecanico;
     private String complexidade;
-    private Orcamento orcamento;
     
     
     public Servico() {
     }
 
-    public Servico(int id_servicos, String tipo_Servico, String tempo_Estimado, double valor, Mecanico mecanico, String complexidade, Orcamento orcamento) {
+    public Servico(int id_servicos, String tipo_Servico, String tempo_Estimado, double valor, Mecanico mecanico, String complexidade) {
         this.id_servicos = id_servicos;
         this.tipo_Servico = tipo_Servico;
         this.tempo_Estimado = tempo_Estimado;
         this.valor = valor;
         this.mecanico = mecanico;
         this.complexidade = complexidade;
-        this.orcamento = orcamento;
     }
 
     public int getId_servicos() {
@@ -74,16 +72,16 @@ public class Servico implements Serializable{
         this.complexidade = complexidade;
     }
 
-    public Orcamento getOrcamento() {
-        return orcamento;
-    }
-
-    public void setOrcamento(Orcamento orcamento) {
-        this.orcamento = orcamento;
+    @Override
+    public String toString() {
+        return tipo_Servico;
     }
     
+<<<<<<< HEAD
     @Override
     public String toString() {
         return this.tipo_Servico;
     }
+=======
+>>>>>>> wesley
 }
