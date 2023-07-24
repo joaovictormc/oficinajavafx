@@ -1,0 +1,15 @@
+AnchorPane {
+    -fx-background-color: #a3a3a3;
+}
+
+#buttonNota1,
+#buttonNota2,
+#buttonNota3,
+#buttonNota4,
+#buttonNota5 {
+    -fx-background-image: url('file:/C:/Users/Usuário/Downloads/oficinajavafx-main%20(1)/oficinajavafx-main/src/oficinajavafx/view/icones/hollywood-star.png');
+    -fx-pref-width: 25px;
+    -fx-pref-height: 25px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 50;
+}

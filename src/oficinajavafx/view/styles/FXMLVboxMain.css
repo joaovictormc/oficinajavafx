@@ -1,0 +1,18 @@
+.menuBar {
+    -fx-background-color: #565656;
+    -fx-alignment: center;
+    -fx-spacing: 150;
+}
+
+.telaPrincipal {
+    -fx-background-color: #a3a3a3;
+}
+
+.imgCadastro {
+    -fx-padding: inherit;
+}
+
+.lblAdm {
+    -fx-font-family: "Agency FB";
+    -fx-font-size: 18pt;
+}

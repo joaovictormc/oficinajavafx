@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="637.0" prefWidth="1280.0" stylesheets="@styles/FXMLAgendamentoFinalizacao.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLAgendamentoFinalizacaoController">
+   <children>
+      <HBox layoutX="106.0" layoutY="115.0" prefHeight="637.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="638.0" prefWidth="170.0" style="-fx-background-color: #565656;">
+               <children>
+                  <Group layoutX="14.0" layoutY="14.0">
+                     <children>
+                        <Button fx:id="bntAgendamento" mnemonicParsing="false" onAction="#handleBtnAgendamento" prefHeight="43.0" prefWidth="142.0" styleClass="btnCRUD" text="Agendamento" />
+                        <Button fx:id="btnFinalizacao" layoutY="63.0" mnemonicParsing="false" onAction="#handleBtnFinalizacao" prefHeight="43.0" prefWidth="142.0" styleClass="btnCRUD" text="Finalização" />
+                     </children>
+                  </Group>
+                  <Label layoutX="52.0" layoutY="600.0" styleClass="tblView" text="By: Wesley" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPane" prefHeight="638.0" prefWidth="1110.0" styleClass="anchorPaneEsquerda" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

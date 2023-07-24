@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="498.0" prefWidth="830.0" styleClass="anchrPaneMain" stylesheets="@styles/FXMLInserirClientes.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLInserirAvaliacaoController">
+   <children>
+      <Label layoutX="55.0" layoutY="130.0" styleClass="lblInfo" text="* Nota(Valor de 0 a 10):" AnchorPane.rightAnchor="582.0" />
+      <Label layoutX="136.0" layoutY="192.0" styleClass="lblInfo" text="* Comentário:" AnchorPane.rightAnchor="578.0" />
+      <Label layoutX="178.0" layoutY="254.0" styleClass="lblInfo" text="* ID Agendamento:" AnchorPane.rightAnchor="582.0" />
+      <Label layoutX="164.0" layoutY="315.0" styleClass="lblInfo" text="* ID Mecânico: " AnchorPane.rightAnchor="582.0" />
+      <Label layoutX="325.0" layoutY="24.0" styleClass="lblTitles" text="Inserir Avaliação" AnchorPane.rightAnchor="339.0" />
+      <Group layoutX="563.0" layoutY="440.0">
+         <children>
+            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#btnCadastrarAvaliacao" prefHeight="43.0" prefWidth="112.0" styleClass="buttonsAction" text="Cadastrar" />
+            <Button fx:id="btnCancelar" layoutX="135.0" mnemonicParsing="false" onAction="#btnCancelarCadastro" prefHeight="43.0" prefWidth="112.0" styleClass="buttonsAction" text="Cancelar" />
+         </children>
+      </Group>
+      <ImageView fitHeight="60.0" fitWidth="66.0" layoutX="259.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icones/avatar-do-usuario.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="txtCadastroNota" layoutX="259.0" layoutY="125.0" prefHeight="38.0" prefWidth="89.0" styleClass="txtFieldInfo" AnchorPane.leftAnchor="259.0" />
+      <TextField fx:id="txtCadastroComentario" layoutX="259.0" layoutY="182.0" prefHeight="49.0" prefWidth="465.0" styleClass="txtFieldInfo" AnchorPane.leftAnchor="259.0" />
+      <TextField fx:id="txtCadastroIdAgendamento" layoutX="260.0" layoutY="249.0" prefHeight="38.0" prefWidth="112.0" styleClass="txtFieldInfo" AnchorPane.leftAnchor="260.0" />
+      <TextField fx:id="txtCadastroIdMecanico" layoutX="259.0" layoutY="311.0" prefHeight="38.0" prefWidth="116.0" styleClass="txtFieldInfo" AnchorPane.leftAnchor="259.0" />
+      <Label layoutX="6.0" layoutY="4.0" styleClass="lblLegenda" text="* : Campos Obrigatórios" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPaneRelatorioOSPorMes" prefHeight="637.0" prefWidth="1280.0" styleClass="anchorPaneMain" stylesheets="@styles/FXMLRelatorioOSPorMes.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLRelatorioOSPorMesController">
+   <children>
+      <Label layoutX="480.0" layoutY="14.0" styleClass="lblTitles" text="Orçamentos Aprovados por Mês" />
+      <TableView fx:id="tblViewOSTrue" layoutY="83.0" prefHeight="506.0" prefWidth="1280.0">
+        <columns>
+          <TableColumn fx:id="tblColumnID" prefWidth="48.79998856782913" text="ID" />
+          <TableColumn fx:id="tblColumnCliente" prefWidth="327.9999809265137" text="Cliente" />
+            <TableColumn fx:id="tblColumnModelo" prefWidth="165.5999755859375" text="Modelo do Veículo" />
+            <TableColumn fx:id="tblColumnServico" prefWidth="443.99993896484375" text="Serviços" />
+            <TableColumn fx:id="tblColumnValor" prefWidth="141.60009765625" text="Valor" />
+            <TableColumn fx:id="tblColumnDataEntrada" prefWidth="152.800048828125" text="Data Entrada" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnImprimir" layoutX="1160.0" layoutY="592.0" mnemonicParsing="false" onAction="#buttonImprimir" styleClass="btnCRUD" text="Imprimir" />
+      <Label layoutX="1136.0" layoutY="2.0" text="João victor Maciel Campos" />
+   </children>
+</AnchorPane>

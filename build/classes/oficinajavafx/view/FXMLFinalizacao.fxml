@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="638.0" prefWidth="1110.0" styleClass="anchorPaneEsquerda" stylesheets="@styles/FXMLFinalizacao.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oficinajavafx.controller.FXMLFinalizacaoController">
+   <children>
+      <Label layoutX="563.0" layoutY="280.0" text="Finalização" />
+   </children>
+</AnchorPane>
