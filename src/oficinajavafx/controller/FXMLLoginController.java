@@ -58,7 +58,7 @@ public class FXMLLoginController implements Initializable {
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://127.0.0.1/oficina";
             String user = "postgres";
-            String password = "1234";
+            String password = "postgres";
 
             connection = DriverManager.getConnection(url, user, password);
             // Aqui você pode adicionar a lógica para validar o usuário e senha no banco de dados
